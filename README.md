@@ -210,6 +210,11 @@ public:
     : Proto(std::move(Proto)), Body(std::move(Body)) {}
 };
 
+```
+
+以上就定义完了所有的AST结点类，接下来开始定义分析(parse)函数：
+
+```cpp
 // 这里处理了两种情况，一种是读入的token仅仅是一个标识符而不是函数，另一种情况是读入的token是函数调用；这两种情况的区分通过提前读入一个token，看这个token是不是'('而确定。
 /// identifierexpr
 ///   ::= identifier
