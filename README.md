@@ -273,7 +273,7 @@ static std::unique_ptr<ExprAST> ParsePrimary() {
 
 其实从上面词法分析和语法分析两小节的代码可以看出来，词法分析器（lexer）是作为语法分析器(parser)的一个子模块被调用（getNextToken()）的，只有当语法分析进行到需要token的时候，词法分析器才会进行分析，而不是一开始进行完整的词法分析。也可以用龙书上的一张图解释一下：
 
-![](.\assets\Snipaste_2019-01-22_22-00-30.png)
+![](./assets/Snipaste_2019-01-22_22-00-30.png)
 
 下面开始较为复杂一点的二元表达式的解析：
 
