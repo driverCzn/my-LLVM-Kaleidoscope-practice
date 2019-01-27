@@ -7,11 +7,11 @@ Some notes about [LLVM's Kaleidoscope tutorial](https://llvm.org/docs/tutorial/i
 
 [概览](#概览)
 
-[词法分析](https://github.com/driverCzn/my-LLVM-Kaleidoscope-practice#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90)
+[词法分析](#词法分析)
 
 [语法分析](#语法分析)
 
-## 概览：
+## [概览：](#目录)
 
 首先，目标语言（Kaleidoscope，以下简称K语言）是一种顺序执行的语言，可以定义函数、使用条件语句、进行数学运算等。
 语言的数据类型固定为64位的浮点数（也就是64位机器上C中的double）。
@@ -42,7 +42,7 @@ atan2(sin(.4), cos(42))
 
 //这个声明的架势看起来又有点像C/C++……
 
-## 词法分析：
+## [词法分析：](#目录)
 
 接下来描述了词法分析器（Lexer，用于将字符流转化为token序列，即记号流，用于后续语法分析）的设计以及关键代码：
 
@@ -139,7 +139,7 @@ static int gettok() {
 
 具体可以参考[这个](https://www.zhihu.com/question/39441111/answer/81626593)。
 
-## 语法分析：
+## [语法分析：](#目录)
 
 使用上述lexer（TODO）产生token序列以后，将token序列通过parser分析成AST。先看一下AST长啥样（下面代码中的一个个class就是AST中不同的结点类，除了ExprAST作为基类不直接使用。）：
 
