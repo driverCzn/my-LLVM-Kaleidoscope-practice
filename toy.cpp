@@ -2,6 +2,7 @@
 // Created by czn on 2019/1/27.
 //
 // From LLVM's tutorial/LangImpl02.html#kaleidoscope-implementing-a-parser-and-ast
+// Before compile, execute `sudo apt install clang llvm-dev`; Then ` clang++ -g -O3 toy.cpp `llvm-config --cxxflags` `.
 #include "llvm/ADT/STLExtras.h"
 #include <algorithm>
 #include <cctype>
