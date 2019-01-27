@@ -3,6 +3,14 @@ Some notes about [LLVM's Kaleidoscope tutorial](https://llvm.org/docs/tutorial/i
 
 硬啃龙书感觉不是很有意思，感觉可以跟着LLVM官方的教程尝试一下撸一个玩具编译器出来，了解一下书里讲的每一部分内容具体是怎样的，毕竟编译原理是理论和实践联系紧密的一门课。
 
+## 目录：
+
+[概览](#概览)
+
+[词法分析](https://github.com/driverCzn/my-LLVM-Kaleidoscope-practice#%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90)
+
+[语法分析](#语法分析)
+
 ## 概览：
 
 首先，目标语言（Kaleidoscope，以下简称K语言）是一种顺序执行的语言，可以定义函数、使用条件语句、进行数学运算等。
