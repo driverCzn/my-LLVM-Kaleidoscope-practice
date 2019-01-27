@@ -252,11 +252,11 @@ static std::unique_ptr<ExprAST> ParseIdentifierExpr() {
   return llvm::make_unique<CallExprAST>(IdName, std::move(Args));
 }
 
-// 上面所展示的对于几种token的分析的结果都可以称为是primary expr（即主要的表达式，相对应的有后面扩扩展内容中的user-defined unary operator），下面的代码相当于一个分发器，判断了要解析的token属于哪一类表达式。
+// 上面所展示的对于几种token的分析的结果都可以称为是primary expr（即主要的表达式，如标识符、数字、括号，相对应的有后面扩扩展内容中的user-defined unary operator），下面的代码作为一个统一的入口函数，判断了要解析的token属于哪一类表达式。
 /// primary
-///   ::= identifierexpr
-///   ::= numberexpr
-///   ::= parenexpr
+///   ::= identifierexpr // 标识符开头的表达式
+///   ::= numberexpr // 数字……
+///   ::= parenexpr // 括号……
 static std::unique_ptr<ExprAST> ParsePrimary() {
   switch (CurTok) {
   default:
@@ -269,7 +269,42 @@ static std::unique_ptr<ExprAST> ParsePrimary() {
     return ParseParenExpr();
   }
 }
+```
 
+其实从上面词法分析和语法分析两小节的代码可以看出来，词法分析器（lexer）是作为语法分析器(parser)的一个子模块被调用（getNextToken()）的，只有当语法分析进行到需要token的时候，词法分析器才会进行分析，而不是一开始进行完整的词法分析。也可以用龙书上的一张图解释一下：
 
+![](.\assets\Snipaste_2019-01-22_22-00-30.png)
+
+下面开始较为复杂一点的二元表达式的解析：
+
+如果不考虑优先级的话，二元表达式是有二义性的，也就是`3+4*5`可以理解成`(3+4)*5`，也可以理解成`3+(4*5)`，因此说具有二义性。但是考虑运算优先级的话，应该是`3+(4*5)`才对，所以这里使用了一种叫做“运算符优先级解析（[Operator-Precedence Parsing](http://en.wikipedia.org/wiki/Operator-precedence_parser)）”的方法解决运算优先级的问题。
+
+使用运算符优先级解析，首先就需要一张运算符优先级表：
+
+```cpp
+/// BinopPrecedence - This holds the precedence for each binary operator that is
+/// defined.
+static std::map<char, int> BinopPrecedence;
+
+/// GetTokPrecedence - Get the precedence of the pending binary operator token.
+static int GetTokPrecedence() {
+  if (!isascii(CurTok))
+    return -1;
+
+  // Make sure it's a declared binop.
+  int TokPrec = BinopPrecedence[CurTok];
+  if (TokPrec <= 0) return -1;
+  return TokPrec;
+}
+
+int main() {
+  // Install standard binary operators.
+  // 1 is lowest precedence.
+  BinopPrecedence['<'] = 10;
+  BinopPrecedence['+'] = 20;
+  BinopPrecedence['-'] = 20;
+  BinopPrecedence['*'] = 40;  // highest.
+  ...
+}
 ```
 
